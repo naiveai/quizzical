@@ -1,4 +1,6 @@
 <script>
+	import Question from '$lib/components/Question.svelte';
+
 	let questions = [
 		{
 			text: 'What is the capital of France?',
@@ -34,16 +36,7 @@
 
 <div class="fade-in m-auto mt-10 flex flex-col items-center justify-center md:w-1/2">
 	{#each questions as question}
-		<div class="mb-4 w-full rounded bg-white px-8 pt-6 pb-8 shadow-xl">
-			<h2 class="mb-4 text-2xl font-bold">{question.text}</h2>
-			<div class="mb-4 grid grid-cols-2 gap-4">
-				{#each question.options as option}
-					<button class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
-						{option}
-					</button>
-				{/each}
-			</div>
-		</div>
+		<Question question={question.text} options={question.options} />
 	{/each}
 </div>
 
