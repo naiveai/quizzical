@@ -1,44 +1,38 @@
-<script>
+<script lang="ts">
+	import type { PageProps } from './$types';
 	import Question from '$lib/components/Question.svelte';
 
-	let questions = [
-		{
-			text: 'What is the capital of France?',
-			options: ['Paris', 'London', 'Berlin', 'Madrid']
-		},
-		{
-			text: 'What is the largest planet in our solar system?',
-			options: ['Earth', 'Mars', 'Jupiter', 'Saturn']
-		},
-		{
-			text: 'What is the boiling point of water?',
-			options: ['100°C', '90°C', '80°C', '110°C']
-		}
-	];
+	let { form }: PageProps = $props();
 </script>
 
-<div class="mt-20 flex w-full flex-col items-center justify-center px-4">
+<form
+	method="POST"
+	action="?/generate"
+	class="mt-20 flex w-full flex-col items-center justify-center px-4"
+>
 	<div class="flex w-full max-w-3xl overflow-hidden rounded-full bg-white shadow-lg">
 		<input
 			type="text"
-			placeholder="Enter your source URL"
+			name="source"
+			placeholder="Enter your source"
 			class="w-full px-6 py-4 text-xl text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 		/>
 		<button
-			class="flex items-center justify-center bg-blue-600 px-6 text-white transition-all hover:animate-pulse hover:bg-blue-700"
-			onclick={() => {}}
+			class="flex items-center justify-center bg-blue-600 px-6 text-white transition-all hover:bg-blue-700"
 			aria-label="Submit"
 		>
 			<span class="icon-[material-symbols--send] text-2xl"></span>
 		</button>
 	</div>
-</div>
+</form>
 
-<div class="fade-in m-auto mt-10 flex flex-col items-center justify-center md:w-1/2">
-	{#each questions as question}
-		<Question question={question.text} options={question.options} />
-	{/each}
-</div>
+{#if form?.quiz}
+	<div class="fade-in m-auto mt-10 flex flex-col items-center justify-center md:w-1/2">
+		{#each form.quiz as question}
+			<Question question={question.questionText} options={question.options} />
+		{/each}
+	</div>
+{/if}
 
 <style>
 	.fade-in {
