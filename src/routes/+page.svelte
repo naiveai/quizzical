@@ -29,7 +29,7 @@
 {#if form?.quiz}
 	<div class="fade-in m-auto mt-10 flex flex-col items-center justify-center md:w-1/2">
 		{#each form.quiz as question}
-			<Question question={question.questionText} options={question.options} />
+			<Question {...question} />
 		{/each}
 	</div>
 {/if}
