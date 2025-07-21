@@ -21,7 +21,7 @@ export const actions: Actions = {
 
         try {
             const response = await openai.responses.parse({
-                model: 'gpt-4.1-mini',
+                model: 'gpt-4.1',
                 instructions:
                 `You are a college professor. Your task is to create a quiz that tests students'
                  conceptual understanding of a given source text.
