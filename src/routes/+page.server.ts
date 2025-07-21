@@ -13,7 +13,7 @@ const quizResponse = z.object({
 });
 
 export const actions: Actions = {
-    generate: async ({ request }) => {
+    generateQuiz: async ({ request }) => {
         const formData = await request.formData();
         const source = formData.get('source') as string;
 
@@ -49,7 +49,7 @@ export const actions: Actions = {
             console.error('OpenAI API error:', error);
 
             return {
-                error: 'Failed to fetch response from OpenAI'
+                error: 'Unable to generate quiz.'
             };
         }
     },

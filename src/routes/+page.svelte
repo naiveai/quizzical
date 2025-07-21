@@ -1,14 +1,23 @@
 <script lang="ts">
-	import type { PageProps } from './$types';
+	import { enhance } from '$app/forms';
 	import Question from '$lib/components/Question.svelte';
 
-	let { form }: PageProps = $props();
+	let { form } = $props();
+	let questionsLoading = $state(false);
 </script>
 
 <form
 	method="POST"
-	action="?/generate"
+	action="?/generateQuiz"
 	class="mt-20 flex w-full flex-col items-center justify-center px-4"
+	use:enhance={() => {
+		questionsLoading = true;
+
+		return async ({ update }) => {
+			questionsLoading = false;
+			update();
+		};
+	}}
 >
 	<div class="flex w-full max-w-3xl overflow-hidden rounded-full bg-white shadow-lg">
 		<input
@@ -21,30 +30,30 @@
 			class="flex items-center justify-center bg-blue-600 px-6 text-white transition-all hover:bg-blue-700"
 			aria-label="Submit"
 		>
-			<span class="icon-[material-symbols--send] text-2xl"></span>
+			{#if !questionsLoading}
+				<span class="icon-[material-symbols--send] text-2xl"></span>
+			{:else}
+				<span class="icon-[simple-icons--openai] animate-spin text-2xl"></span>
+			{/if}
 		</button>
 	</div>
 </form>
 
-{#if form?.quiz}
-	<div class="fade-in m-auto mt-10 flex flex-col items-center justify-center md:w-1/2">
-		{#each form.quiz as question}
-			<Question {...question} />
-		{/each}
+{#if !form?.error}
+	<div class="m-auto mt-10 flex flex-col items-center justify-center md:w-1/2">
+		{#if questionsLoading}
+			{#each Array(3) as _}
+				<Question loading />
+			{/each}
+		{:else}
+			{#each form?.quiz as question}
+				<Question {...question} />
+			{/each}
+		{/if}
+	</div>
+{:else}
+	<div class="mt-10 text-center text-red-600">
+		<span class="icon-[material-symbols--error] text-4xl"></span>
+		<p class="mt-2">{form.error}</p>
 	</div>
 {/if}
-
-<style>
-	.fade-in {
-		animation: fadeIn 1.2s ease-in-out;
-	}
-
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-</style>
