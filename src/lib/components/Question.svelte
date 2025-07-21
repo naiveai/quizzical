@@ -1,5 +1,14 @@
 <script lang="ts">
-	let { loading, key = '', questionText = '', correctAnswer = '', incorrectOptions = [] } = $props();
+	let {
+		loading,
+		disabled = false,
+		key = '',
+		questionText = '',
+		correctAnswer = '',
+		incorrectOptions = [],
+		isCorrect = $bindable(),
+		showCorrectAnswer = false
+	} = $props();
 
 	function shuffle(arr: any[]) {
 		for (let i = arr.length - 1; i > 0; i--) {
@@ -10,6 +19,11 @@
 	}
 
 	let options = shuffle([correctAnswer, ...incorrectOptions]);
+	let selectedAnswer = $state('');
+
+	$effect(() => {
+		isCorrect = selectedAnswer === correctAnswer;
+	});
 </script>
 
 {#if !loading}
@@ -23,10 +37,27 @@
 						name="answer-{key}"
 						value={option}
 						id={option}
+						{disabled}
+						bind:group={selectedAnswer}
 						class="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
 					/>
-					<label for={option} class="cursor-pointer text-lg leading-snug text-gray-800 select-none">
+					<label
+						for={option}
+						class="cursor-pointer pl-2 text-lg leading-snug text-gray-800 select-none"
+					>
 						{option}
+						{#if showCorrectAnswer}
+							<span
+								class={[
+									'text-xl inline-block align-middle leading-none',
+									option === correctAnswer
+										? 'icon-[material-symbols--check-circle] text-green-500'
+										: option === selectedAnswer
+											? 'icon-[material-symbols--cancel] text-red-500'
+											: ''
+								]}
+							></span>
+						{/if}
 					</label>
 				</div>
 			{/each}
