@@ -27,7 +27,7 @@
 </script>
 
 {#if !loading}
-	<div class="mb-4 w-full rounded bg-white px-8 pt-6 pb-8 shadow-xl">
+	<div class="mb-4 w-full rounded-lg bg-white p-8 shadow-xl">
 		<h2 class="mb-4 text-2xl font-bold">{questionText}</h2>
 		<div class="mb-4 grid grid-cols-2 gap-4">
 			{#each options as option}
@@ -64,7 +64,7 @@
 		</div>
 	</div>
 {:else}
-	<div class="mt-10 w-full max-w-3xl animate-pulse rounded-lg bg-white p-6 shadow-lg">
+	<div class="mb-4 w-full animate-pulse rounded-lg bg-white p-8 shadow-xl">
 		<div class="mb-4 h-10 w-full bg-gray-200"></div>
 		<div class="mb-4 grid grid-cols-2 gap-4">
 			{#each Array(4) as _}
