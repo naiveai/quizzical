@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { loading, questionText = '', correctAnswer = '', incorrectOptions = [] } = $props();
+	let { loading, key = '', questionText = '', correctAnswer = '', incorrectOptions = [] } = $props();
 
 	function shuffle(arr: any[]) {
 		for (let i = arr.length - 1; i > 0; i--) {
@@ -20,7 +20,7 @@
 				<div class="flex items-start gap-3">
 					<input
 						type="radio"
-						name="answer-{questionText}"
+						name="answer-{key}"
 						value={option}
 						id={option}
 						class="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"

@@ -19,24 +19,32 @@
 		};
 	}}
 >
-	<div class="flex w-full max-w-3xl overflow-hidden rounded-full bg-white shadow-lg">
-		<input
-			type="text"
-			name="source"
-			placeholder="Enter your source"
-			class="w-full px-6 py-4 text-xl text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-		/>
-		<button
-			class="flex items-center justify-center bg-blue-600 px-6 text-white transition-all hover:bg-blue-700"
-			aria-label="Submit"
-		>
-			{#if !questionsLoading}
-				<span class="icon-[material-symbols--send] text-2xl"></span>
-			{:else}
-				<span class="icon-[simple-icons--openai] animate-spin text-2xl"></span>
-			{/if}
-		</button>
-	</div>
+	<textarea
+		name="source"
+		placeholder="Enter the source text here..."
+		class="rounded-lg border border-gray-300 p-4 text-lg focus:border-blue-500 focus:outline-none md:w-1/2"
+		rows="10"
+		required
+	></textarea>
+
+	<button
+		class={[
+			'mt-4 flex w-full items-center justify-center rounded-lg bg-blue-600 p-4 text-white transition-all hover:bg-blue-700 md:w-auto',
+			questionsLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+		]}
+		disabled={questionsLoading}
+		aria-label="Generate Quiz"
+	>
+		<span
+			class={[
+				'text-2xl',
+				!questionsLoading
+					? 'icon-[material-symbols--send]'
+					: 'icon-[simple-icons--openai] animate-spin'
+			]}
+		></span>
+		<span class="ml-2 text-2xl">{!questionsLoading ? 'Generate Quiz' : 'Generating...'}</span>
+	</button>
 </form>
 
 {#if !form?.error}
@@ -46,8 +54,8 @@
 				<Question loading />
 			{/each}
 		{:else}
-			{#each form?.quiz as question}
-				<Question {...question} />
+			{#each form?.quiz as question, index}
+				<Question key={index} {...question} />
 			{/each}
 		{/if}
 	</div>

@@ -9,7 +9,7 @@ const quizResponse = z.object({
             correctAnswer: z.string(),
             incorrectOptions: z.array(z.string()).length(3),
         })
-    ).length(3)
+    ).min(3).max(10),
 });
 
 export const actions: Actions = {
@@ -23,15 +23,24 @@ export const actions: Actions = {
             const response = await openai.responses.parse({
                 model: 'gpt-4.1-mini',
                 instructions:
-                `You are a professor. Your task is to create a quiz that tests student's knowledge of a specific topic.
+                `You are a college professor. Your task is to create a quiz that tests students'
+                 conceptual understanding of a given source text.
 
-                 1. The questions should be clear, concise, and relevant to the topic provided.
-                 2. Each question should have a correct answer and plausible-sounding incorrect alternative answers.
-                 3. The questions should focus mostly on testing a student's conceptual understanding of the topic.
-                 4. Each question should have roughly the same level of difficulty as the others.
-                 5. The quiz's overall difficulty should be proportional to the topic's complexity and specificity.
-                    For instance, a quiz about "space" in general should have questions that are easier than a quiz about "black holes".
-                 6. Use language appropriate for a college-level adult audience.
+                 Instructions:
+                 1. Each question must be:
+                    a. Clear, concise, and relevant to the general topic of the source text.
+                    b. Approximately the same level of difficulty as the others.
+                    c. Written in language appropriate for a college-level adult audience.
+                    d. Focused on conceptual understanding rather than rote fact recall.
+                    e. A significant modification of the raw source text, not a direct fill-in-the-blank conversion.
+                 2. Each question must include:
+                    a. A single unambigously correct answer.
+                    b. Plausible-sounding but unambigously incorrect alternative answers.
+                 3. Adjust the overall difficulty of the quiz to match the complexity and specificity of the source text.
+                    For example, a quiz for a source text about space in general should be easier than a quiz for a
+                    source text about the details of black hole formation.
+                 4. The quiz can contain between 3 and 10 questions, but should only contain the minimum number of questions
+                    necessary to adequately test the student's understanding of the source text.
                 `,
                 input: source,
                 text: {
