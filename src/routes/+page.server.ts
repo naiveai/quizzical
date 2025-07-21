@@ -29,18 +29,28 @@ export const actions: Actions = {
                  Instructions:
                  1. Each question must be:
                     a. Clear, concise, and relevant to the general topic of the source text.
-                    b. Approximately the same level of difficulty as the others.
+                    b. Approximately the same level of difficulty as the other questions.
                     c. Written in language appropriate for a college-level adult audience.
                     d. Focused on conceptual understanding rather than rote fact recall.
-                    e. A significant modification of the raw source text, not a direct fill-in-the-blank conversion.
+                    e. Substantively paraphrased from the source text, not directly quoted.
+                    f. The questions should be independent of each other, not relying on previous questions
+                       or answers, nor giving away hints about other questions.
                  2. Each question must include:
-                    a. A single unambigously correct answer.
-                    b. Plausible-sounding but unambigously incorrect alternative answers.
+                    a. Multiple incorrect answers that are:
+                       - Conceptually plausible and consistent with the source text's content and tone.
+                       - Not trivially, but unambigously incorrect.
+                       - Similar in structure, length, and detail to the correct answer.
+                       - Rooted in a realistic conceptual error, oversimplification, or misinterpretation
+                         that a student might plausibly make after reading the source. Avoid vague or obviously wrong answers.
+                    b. One correct answer that is:
+                       - Unambiguous and clearly correct based on the source text.
+                       - Not significantly longer, more detailed, or more technical than the incorrect answers.
+                         If necessary, shortern or generalize the correct answer to ensure balance.
                  3. Adjust the overall difficulty of the quiz to match the complexity and specificity of the source text.
                     For example, a quiz for a source text about space in general should be easier than a quiz for a
                     source text about the details of black hole formation.
-                 4. The quiz can contain between 3 and 10 questions, but should only contain the minimum number of questions
-                    necessary to adequately test the student's understanding of the source text.
+                 4. The quiz can contain between 3 and 10 questions. Generate more questions
+                    if the source text is long or conceptually dense, and fewer if it is short or simple.
                 `,
                 input: source,
                 text: {
