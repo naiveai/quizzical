@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { fade } from 'svelte/transition';
 	import Question from '$lib/components/Question.svelte';
+	import ScoreReport from '$lib/components/ScoreReport.svelte';
 	import { scrollTo, scrollRef } from 'svelte-scrolling';
 
 	let { form } = $props();
@@ -10,8 +11,6 @@
 	let quizSubmitted = $state(false);
 
 	let markedCorrect: boolean[] = $state([]);
-	let numCorrect = $derived(markedCorrect.filter(Boolean).length);
-	let percentCorrect = $derived(Math.round((numCorrect / (form?.quiz?.length || 1)) * 100));
 
 	const title = 'Quizzical';
 	const description = 'Generate quizzes to test your knowledge on a source text with AI.';
@@ -123,65 +122,8 @@
 	{/if}
 </section>
 
-<section
-	aria-label="Score Report"
-	class="mt-10 flex flex-row items-center justify-center"
-	use:scrollRef={'scoreReport'}
->
+<section aria-label="Score Report" class="mt-10" use:scrollRef={'scoreReport'}>
 	{#if quizSubmitted}
-		<h2 class="mb-4 text-2xl font-bold">Your Score Is:</h2>
-		<div class="relative m-10 h-40 w-40">
-			<svg class="h-full w-full" viewBox="0 0 100 100">
-				<!-- Background circle -->
-				<circle
-					class="stroke-current text-gray-200"
-					stroke-width="10"
-					cx="50"
-					cy="50"
-					r="40"
-					fill="transparent"
-				></circle>
-				<!-- Progress circle -->
-				<circle
-					class={[
-						'progress-ring__circle stroke-current',
-						percentCorrect >= 80
-							? 'text-green-500'
-							: percentCorrect >= 50
-								? 'text-yellow-500'
-								: 'text-red-500'
-					]}
-					stroke-width="10"
-					stroke-linecap="round"
-					cx="50"
-					cy="50"
-					r="40"
-					fill="transparent"
-					stroke-dasharray="251.2"
-					stroke-dashoffset="calc(251.2px - (251.2px * {percentCorrect}) / 100)"
-				></circle>
-
-				<text x="50" y="50" class="text-4xl" text-anchor="middle" dominant-baseline="middle">
-					{percentCorrect}
-				</text>
-				<text
-					x="50"
-					y="70"
-					class="text-sm opacity-25"
-					text-anchor="middle"
-					dominant-baseline="middle"
-				>
-					{numCorrect} / {form?.quiz?.length}
-				</text>
-			</svg>
-		</div>
+		<ScoreReport numCorrect={markedCorrect.filter(Boolean).length} total={form?.quiz?.length} />
 	{/if}
 </section>
-
-<style>
-	.progress-ring__circle {
-		transition: stroke-dashoffset 0.35s;
-		transform: rotate(-90deg);
-		transform-origin: 50% 50%;
-	}
-</style>
