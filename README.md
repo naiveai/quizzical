@@ -1,4 +1,4 @@
-# Quizzical
+# [Quizzical](https://quizzical-two-beta.vercel.app)
 
 Generate quizzes to test your knowledge on any source text with AI.
 
