@@ -20,12 +20,13 @@
 <meta name="description" content={description} />
 
 <h1
-	class="mt-10 mb-4 text-center text-7xl font-bold text-blue-600 md:text-8xl lg:text-9xl"
+	class="mt-10 text-center text-7xl font-bold text-blue-600 md:text-8xl lg:text-9xl"
 	aria-label={title}
 	style="font-family: 'Poppins', sans-serif;"
 >
 	{title}
 </h1>
+<p class="mb-4 text-center text-xl text-gray-500">by Eshan Singh</p>
 <p class="text-center text-2xl text-gray-700">{description}</p>
 <p class="mx-auto mt-4 p-4 text-center text-sm text-gray-500 md:w-1/2">
 	<b>DISCLAIMER:</b> Quizzical is primarily intended as a proof of concept. AI-generated quizzes are
